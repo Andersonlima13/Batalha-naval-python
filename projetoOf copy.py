@@ -22,6 +22,7 @@ from time import sleep
 
 # # # # Funções # # # #
 
+#passar as variaveis globais como parametro
 
 #----- 1ª função -----#
 
@@ -332,6 +333,8 @@ while True:
     sleep(1)
     configurarJogo()
     while True:
+        
+        # o programa continua ate a pontuaçao ser igual ao n de navios
         while True:
             print(f'\n👉 Agora é a vez do jogador {nomeJogador1} atacar o jogador {nomeJogador2}\n')
             resultadoDoAtaque = ataque(tabuleiroJogador2, 1)
