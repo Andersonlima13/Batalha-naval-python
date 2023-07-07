@@ -26,70 +26,99 @@ from time import sleep
 
 #----- 1ª função -----#
 
-# Ivamberg Silva
+# Anderson lima
+'''' SUGESTAO : remover as variaveis globais, ao inves disso passar a necessidade de criar os tabuleiros ocultos e nao ocultos para a funçao
+criar tabuleiro, que vai ficar dependente do nome dos jogadores e da ordem ja definida'''
 # Configuração inicial do jogo
+
+
+
+
 def configurarJogo():
     # Definir as variáveis importantes como globais
     global ordem, nomeJogador1, nomeJogador2, quantidadeDeNavios, tabuleiroJogador1, tabOculto1, pontuacaoDoJogador1,tabuleiroJogador2, pontuacaoDoJogador2, tabOculto2
 
-    ordem = 10
+    ordem = 8
     pontuacaoDoJogador1 = pontuacaoDoJogador2 = 0
 
-    # O programa será iniciado e mostrado na tela a partir deste ponto
+    # O programa será iniciado e mostrado na tela a partir deste ponto // apenas a primeira impressao
+    
     print('-'*38)
     print('🚢 Bem-vindo ao jogo BATALHA NAVAL 🚢')
     print('-'*38)
     sleep(1)
-
+    global arq
+    arq = open('jogadas2','w')
+    
     # Pede-se o nome de cada jogador
-    nomeJogador1 = 'Carlos'#str(input('🔘 NOME DO PRIMEIRO JOGADOR: ')).upper().strip()
-    sleep(0.5)
-    nomeJogador2 = 'Diego'#str(input('🔘 NOME DO SEGUNDO JOGADOR: ')).upper().strip()
-    sleep(0.5)
 
-    # Escolher a quantidade de navios que cada jogador possuirá
+    
     while True:
-        quantidadeDeNavios = 3 #int(input('🚢 Número de navios de cada jogador 🚢 [máximo = 10]: '))
-        if quantidadeDeNavios <= 10 and quantidadeDeNavios >= 1:
-            break
-    sleep(0.5)
+        nomeJogador1 = str(input('🔘 NOME DO PRIMEIRO JOGADOR: ')).upper().strip()
+        sleep(0.5)
+        nomeJogador2 = str(input('🔘 NOME DO SEGUNDO JOGADOR: ')).upper().strip()
+        sleep(0.5)
+        nome_jogadores = "NOME DO JOGADOR 1 :" + nomeJogador1+"|" + '\n' + "|" + "NOME DO JOGADOR 2 :" + nomeJogador2 + '\n'
+        arq.write(nome_jogadores)
+        print('\nArquivo gerado com sucesso.')
+        
+
+    # Escolher a quantidade de navios que cada jogador possuirá, enquanto a funçao é executada
+        while True:
+            quantidadeDeNavios = int(input('🚢 Número de navios de cada jogador 🚢 [máximo = 6]: '))
+            if quantidadeDeNavios <= 6 and quantidadeDeNavios >= 1:
+                break
+        sleep(0.5)
 
     # Tabuleiros ocultos
-    tabOculto1 = [['-']* ordem for i in range(ordem)]
-    tabOculto2 = [['-']* ordem for i in range(ordem)]
+        tabOculto1 = [['-']* ordem for i in range(ordem)]
+        tabOculto2 = [['-']* ordem for i in range(ordem)]
+    
 
-    # Tabuleiros que mostram as frotas
-    tabuleiroJogador1 = criarTabuleiro(quantidadeDeNavios)
-    tabuleiroJogador2 = criarTabuleiro(quantidadeDeNavios)  
+    # Tabuleiros que mostram as frota, vamos chamar a função criarTabuleiro, apos receber o numero de navios como parametro
+    
+        tabuleiroJogador1 = criarTabuleiro(quantidadeDeNavios)
+        tabuleiroJogador2 = criarTabuleiro(quantidadeDeNavios) 
+        tab = tabuleiroJogador1
+        tab2 = tabuleiroJogador2
+        string1 = str(tab).replace("[]","|") + '\n'
+        string2 = str(tab2).replace("[]","|") + '\n'
+        arq.write(string1)
+        arq.write(string2)
+         
 
     # Vamos definir se os usuários querem que mostre a frota de navio no tabuleiro ou não durante o jogo
-    global mostrarTabuleiro
-    while True:
-        mostrarTabuleiro = int(input('Mostrar FROTA no tabuleiro?\n[Selencione "1" para NÃO MOSTRAR a FROTA]\n[Selencione "2" para MOSTRAR a FROTA]\n'))
+    # Anderson lima : transformar (mostratabuleiro em uma funçao dependente da 2 função)
+        global mostrarTabuleiro
+        while True:
+            mostrarTabuleiro = int(input('Mostrar FROTA no tabuleiro?\n[Selencione "1" para NÃO MOSTRAR a FROTA]\n[Selencione "2" para MOSTRAR a FROTA]\n'))
         
         # NÃO MOSTRAR AS FROTAS DE NAVIOS DE CADA JOGADOR, DURANTE A PARTIDA
-        if mostrarTabuleiro == 1:
-            levarParaImpressao(tabuleiroJogador1, 1, None, None, None)
-            sleep(1)
-            levarParaImpressao(tabOculto1, 1, None, None, None)
-            sleep(1)
-            # levarParaImpressao(tabuleiroJogador2, 2, None, None, None)
-            # sleep(1)
-            # levarParaImpressao(tabOculto2, 2, None, None, None)     
-            # sleep(1)
-            break
+            if mostrarTabuleiro == 1:
+                levarParaImpressao(tabuleiroJogador1, 1, None, None, None)
+                sleep(1)
+                levarParaImpressao(tabOculto1, 1, None, None, None)
+                sleep(1)
+                '''levarParaImpressao(tabuleiroJogador2, 2, None, None, None)
+                sleep(1)
+                levarParaImpressao(tabOculto2, 2, None, None, None)     
+                sleep(1)'''
+                break
 
         # MOSTRAR AS FROTAS DE NAVIOS DE CADA JOGADOR, DURANTE A PARTIDA
-        elif mostrarTabuleiro == 2:
-            levarParaImpressao(tabuleiroJogador1, 1, None, None, None)     
-            sleep(1)
-            # levarParaImpressao(tabuleiroJogador2, 2, None, None, None)     
-            # sleep(1)
-            break
+            elif mostrarTabuleiro == 2:
+                levarParaImpressao(tabuleiroJogador1, 1, None, None, None)     
+                sleep(1)
+                # levarParaImpressao(tabuleiroJogador2, 2, None, None, None)     
+                # sleep(1)
+                break
 
-        # USUÁRIO DIGITOU ALGUMA VALOR INVÁLIDO
-        else:
-            print('⚠️ Digite uma opção válida! [Opção 1 ou Opção 2] ⚠️\n')
+            # USUÁRIO DIGITOU ALGUMA VALOR INVÁLIDO
+            else:
+                print('⚠️ Digite uma opção válida! [Opção 1 ou Opção 2] ⚠️\n')
+            
+    
+        break
 
    
     # Como temos uma função para imprimir todas as matrizes em todas as possibilidades, passamos parâmetros do tipo "None", pois não será usados nessa declaração. Porém, não podemos ocultar os 3 últimos, tendo em vista que mesmo essa função recebe 5 parâmetros formais, usados por outras funções;
@@ -98,13 +127,15 @@ def configurarJogo():
 
 #----- 2ª função -----#
 
-# João Marcos 
+# 
 # Função da criação do tabuleiro com espaços vazios e navios
 def criarTabuleiro(quantidadeDeNavios):  
     tabuleiro = [['-']*ordem for i in range(ordem)]
+    
     cont = 0
 
-    # Impede que os navios encostem uns nos outros
+    # Impede que os navios encostem uns nos outros, verificando de há navios adjacentes
+    # logo, contador só recebe mais naviis ao passar pelas condicionais
     while cont < quantidadeDeNavios:
         linha = randint(0, ordem - 1)
         coluna = randint(0, ordem - 1)
@@ -136,7 +167,7 @@ def criarTabuleiro(quantidadeDeNavios):
 
 #----- 3ª função -----#
 
-# Ivamberg Silva
+# anderson lima
 # Função de ataque. Aqui será pedido a letra e o número, representando, respectivamente, a linha e a coluna de ataque.
 def ataque(tabuleiro, identidade):
     while True:
@@ -147,17 +178,23 @@ def ataque(tabuleiro, identidade):
         letra = analisarLetra(bombardear[0])
         numero = int(bombardear[1:])
         imprimirSeparacao()
-        return resultadoTiro(tabuleiro, identidade, letra, numero)
+        salvar_arquivo = int(input("Deseja continuar om o jogo ? | 1 para [SIM] e 2 para [Não] |"))
+        if salvar_arquivo == 2:
+            arq.close()
+            break
+        else:
+            return resultadoTiro(tabuleiro, identidade, letra, numero)
+    
 
 
 #----- 4ª função -----#
 
-# Ivamberg Silva
+# 
 # Escolher unidade para ser atacada; O contador, cada vez que passar para a próxima letra vai contar e isso fará com que as letras virem números inteiros. Ex: A == 1; B == 2;
 # [Essa função será chamada na função "ataque"]
 def analisarLetra(letra):
     contador = 0
-    for i in 'ABCDEFGHIJ':
+    for i in 'ABCDEFGH':
         contador += 1
         if i == letra:
             return contador
@@ -165,7 +202,7 @@ def analisarLetra(letra):
 
 #----- 5ª função -----#
 
-# Ivamberg Silva e João Marcos
+# 
 # O parâmetro "tabuleiro" é auto explicativo, irá receberá o tabuleiro
 # Já o parâmetro "identidade" irá definir de qume é o tabuleiro [1 - refere ao primeiro jogador; 2 - refere ao segundo jogador]
 # Os parâmetros "linha" e "coluna" definirá a "linha" e a "coluna" que o jogador mirou no adversário
@@ -184,7 +221,7 @@ def resultadoTiro(tabuleiro, identidade, linha, coluna):
             else:
                 levarParaImpressao(tabuleiroJogador2, 2, linha, coluna, 0)
         else:
-            if mostrarTabuleiro == 1: # NÃO MOSTRAR A FROTA DE NAVIOS
+            if mostrarTabuleiro == 2: # NÃO MOSTRAR A FROTA DE NAVIOS
                 levarParaImpressao(tabOculto1, 1, linha, coluna, 1)
             else:
                 levarParaImpressao(tabuleiroJogador2, 2, linha, coluna, 0)
@@ -207,6 +244,7 @@ def resultadoTiro(tabuleiro, identidade, linha, coluna):
     # Ao retornar False; simboliza que o jogador errou o navio; Agora a vez irá ser a do adversário;
     
     else:
+        tabuleiro[linha-1][coluna-1] = 'A'
         if identidade == 1:
             if mostrarTabuleiro == 1: # NÃO MOSTRAR A FROTA DE NAVIOS
                 levarParaImpressao(tabOculto2, 2, linha, coluna, 2)
@@ -225,7 +263,7 @@ def resultadoTiro(tabuleiro, identidade, linha, coluna):
 
 #----- 6ª função -----#
 
-# Ivamberg Silva
+# 
 # Essa função prepara os tabuleiros com os F de fogo e A de água para levar à impressão
 def levarParaImpressao(tabuleiroBase, identidade, linha, coluna, consequencia):
     # Identidade == 1 significa que o tabuleiro pertence ao primeiro jogador.
@@ -247,8 +285,7 @@ def levarParaImpressao(tabuleiroBase, identidade, linha, coluna, consequencia):
 
 #----- 7ª função -----#
 
-# Ivamberg Silva
-# Obs do programador: esse foi um desafio bastante legal de realizar;
+
 # Essa função será para imprimir os tabuleiros um ao lado do outro, com cabeçalho e os demais enfeites;
 def impressao(tabuleiroBase):
     if tabuleiroBase == tabuleiroJogador1 or tabuleiroBase == tabuleiroJogador2:
@@ -291,19 +328,22 @@ def impressao(tabuleiroBase):
     print()
 
 
+
+print('\nArquivo gerado com sucesso.')
+
 #----- 8ª função -----#
 
-# Ivamberg Silva
+# Anderson lima
 # Definir letra de cada linha no cabeçalho [essa função será chamada na função "impressao"]
 def letrasParaCabecalho(contador):
-    l = 'ABCDEFGHIJ'
+    l = 'ABCDEFGH'
     contador += 1
     return l[contador]
 
 
 #----- 9ª função -----#
 
-# Ivamberg Silva
+# 
 # Essa função serve apenas para imprimir uma separação entre alguns pontos específicos, quando ela for chamada;
 def imprimirSeparacao():
     print()
@@ -312,18 +352,30 @@ def imprimirSeparacao():
 
 #----- 10ª função -----#
 
-# Ivamberg Silva
+# 
 # Função para mostrar a pontuação de cada jogador, quando for solicitada;
 def mostrarPontuacao():
     print('🟨 TABELA DA PONTUAÇÃO DOS JOGADORES 🟨\n')
     print(f'Pontuação do jogador {nomeJogador1}: {pontuacaoDoJogador1}')
     print(f'Pontuação do jogador {nomeJogador2}: {pontuacaoDoJogador2}')
+
+    pontos1 = pontuacaoDoJogador1
+    pontos2 = pontuacaoDoJogador2
+    
+    arqpontos1 = "\n" + f"PONTUAÇÃO DO JOGADOR 1 : " + "\n" + str(pontos1) 
+    arqpontos2 = "\n" + f"PONTUAÇÃO DO JOGADOR 2 : " +  "\n" + str(pontos2) 
+    arq.write(arqpontos1)
+    arq.write(arqpontos2)
+        
+    
+
+    
     imprimirSeparacao()
         
 
 # # # # #  Programa principal  # # # # #
 
-#Ivamberg Silva e João Marcos
+
 while True:
     escolha = int(input('😀 Olá, o que você deseja fazer?\n[1 - Iniciar um novo jogo?] ✔️\n[2 - Sair] 👋\n'))
     if escolha == 2:
@@ -346,6 +398,7 @@ while True:
                     print('Espereeem.... alguém ganhou...\n')
                     sleep(2)
                     print(f'\n👏 PARABÉNS! {nomeJogador1} GANHOU! 👏\n')
+                    
                     break
             else:
                 mostrarPontuacao()
