@@ -136,30 +136,21 @@ def criarTabuleiro(quantidadeDeNavios):
 
     # Impede que os navios encostem uns nos outros, verificando de há navios adjacentes
     # logo, contador só recebe mais naviis ao passar pelas condicionais
+    
     while cont < quantidadeDeNavios:
         linha = randint(0, ordem - 1)
         coluna = randint(0, ordem - 1)
+# VALOR N = B5 : adjacentes = A4 , A5, A6 , B4, B6, C4,C5,C6
 
-        # Verificação para o N na diagonal superior  esquerda
-        if linha > 0 and coluna > 0 and tabuleiro[linha-1][coluna-1] == 'N':
-            continue #faz o loop voltar para o início identado.
-        if linha > 0 and tabuleiro[linha-1][coluna] == 'N': #verificação para o N adjascente acima
-            continue
-        if linha > 0 and coluna < (ordem - 1) and tabuleiro[linha-1][coluna+1] == 'N': #verificação para o N diagonal superior direita 
-            continue
-        if coluna > 0 and tabuleiro[linha][coluna-1] == 'N': #verificação para o N adjascente ao lado esquerdo
-            continue
-        if tabuleiro[linha][coluna] == 'N': #verificação para o N na mesma coordenada 
-            continue
-        if coluna < (ordem - 1) and tabuleiro[linha][coluna+1] == 'N': #verificação para o N adjascente ao lado direito
-            continue
-        if linha < (ordem - 1) and coluna > 0 and tabuleiro[linha+1][coluna-1] == 'N': #verificação para o N diagonal inferior esquerda
-            continue
-        if linha < (ordem - 1) and tabuleiro[linha+1][coluna] == 'N': #verificação para o N adjascente abaixo
-            continue
-        if linha < (ordem - 1) and coluna < (ordem - 1) and tabuleiro[linha+1][coluna+1] == 'N': #verificação para o N diagonal inferior direita 
-            continue
+#ou seja , a logica é B-1 que vai ser == A , e vai verificar se existe um item "n"
+#no valor 5 - 1 e 5 + 1,   
+# O METODO -> um primeiro laço for vai verificar as matrizes, se houver um valor == "N" , O VALOR DOS INDICES DEVERÃO SER GUARDADOS
+# EXEMPLO INDICE 2 , 5 , LOGO , OUTRO FOR ENTRA EM AÇÃO NOS INDICES 2 - 1 ATÉ 5-1 ASSIM COMO 5 - 1 E 5 + 1 E TAMBÉM 2+1 ATÉ 5+1
+# LOGO ELE FAZ ESSA VERIFICAÇÃO , COMO SO VÃO EXISTIR VALORES DE '-' , O  N SERÁ ATRIBUIDO, VOLTANDO PRO LAÇO FOR  
+
         tabuleiro[linha][coluna] = 'N'
+        
+        
         cont += 1
 
     return tabuleiro
