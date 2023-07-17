@@ -17,8 +17,11 @@ from random import randint
 
 def Iniciar_Tabuleiro(Quantidade_Navios,Ordem):
     if Quantidade_Navios <= 6 and Quantidade_Navios >= 1:
-        Tabuleiro = [['-'] * Ordem for i in range(Ordem)]
-        print(Tabuleiro)
+        Tabuleiro = [[None] * Ordem for i in range(Ordem)]
+        for Linha in range(Ordem):
+            for Coluna in range(Ordem):
+                print(Tabuleiro)
+       
     else:
         '''DEVERÁ CHAMAR A FUNÇÃO DE INSERIR A QUANTIDADE DE NAVIOS NOVAMENTE'''
         print(" INSIRA UMA QUANTIDADE DE NAVIOS VÁLIDA (ENTRE 1 À 6)")
